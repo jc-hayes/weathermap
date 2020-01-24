@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Weather from './Weather.js';
+require('dotenv/config');
 
 const App = () => {
   
@@ -10,22 +11,19 @@ const App = () => {
   const [weatherInfo, setWeatherInfo] = useState({});
   const [weatherMain, setWeatherMain] = useState({});
   const [search, setSearch] = useState('');
-  const [query, setQuery] = useState('seattle,us');
+  const [query, setQuery] = useState('Bothell');
 
   useEffect(() => {
     getWeather();
   }, [query]);
 
-  const APP_ID = '4d5ece97315492a895ae0fad7328bf6a';
-
   const getWeather = async () => {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${APP_ID}`);
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${process.env.REACT_APP_ID}`);
     const data = await response.json();
     setWeather(data);
     setWeatherSys(data.sys);
     setWeatherInfo(data.weather[0]);
     setWeatherMain(data.main);
-    console.log(data);
   };
 
   const updateSearch = e => {
